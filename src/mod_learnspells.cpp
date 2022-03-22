@@ -255,7 +255,7 @@ private:
                     }
                 }
 
-                if (valid)
+                if (valid && !player->HasSpell(spellInfo->Id))
                     player->learnSpell(spellInfo->Id);
             }
         }
