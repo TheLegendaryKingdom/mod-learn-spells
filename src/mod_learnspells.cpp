@@ -229,6 +229,9 @@ private:
 
                 if (spellInfo->BaseLevel != uint32(level) && sSpellMgr->IsSpellValid(spellInfo))
                     continue;
+                
+                if (player->HasSpell(spellInfo->Id))
+                    continue;
 
                 bool valid = false;
 
@@ -274,9 +277,10 @@ private:
                 std::vector<AddSpell> additionalSpellsToTeach = spellsForPlayersFamily->second;
                 for (auto const& spell : additionalSpellsToTeach)
                 {
-                    if (!(player->HasSpell(spell.spellId)) && (spell.faction == TeamId::TEAM_NEUTRAL || spell.faction == player->GetTeamId()))
+                    if (spell.faction == TeamId::TEAM_NEUTRAL || spell.faction == player->GetTeamId())
                     {
-                        player->learnSpell(spell.spellId);
+                        if (!player->HasSpell(spell.spellId))
+                            player->learnSpell(spell.spellId);
                     }
                 }
             }
